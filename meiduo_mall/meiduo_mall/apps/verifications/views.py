@@ -50,6 +50,8 @@ class ImageCodeView(APIView):
 
 
 class SMSCodeView(GenericAPIView):
+
+
     serializer_class = serializers.CheckImageCodeSerializers
 
     def get(self, request, mobile):
@@ -57,11 +59,11 @@ class SMSCodeView(GenericAPIView):
         serializers = self.get_serializer(data=request.query_params)
         serializers.is_valid(raise_exception=True)
 
-        redis_conn = get_redis_connection("verify_codes")
-        send_flag = redis_conn.get('send_flag_%s' % mobile)
+        # redis_conn = get_redis_connection("verify_codes")
+        # send_flag = redis_conn.get('send_flag_%s' % mobile)
 
-        if send_flag:
-            return Response({'message': '发送短信过于频繁'}, status=status.HTTP_400_BAD_REQUEST)
+        # if send_flag:
+        #     return Response({'message': '发送短信过于频繁'}, status=status.HTTP_400_BAD_REQUEST)
 
         # 校验通过
         # 生成短信验证码

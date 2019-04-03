@@ -1,0 +1,2 @@
+class QQAPIException(Exception):
+    pass

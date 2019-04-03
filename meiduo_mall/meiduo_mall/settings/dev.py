@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'verifications.apps.VerificationsConfig',
     'corsheaders',
+    'oauth.apps.OauthConfig',
 ]
 
 MIDDLEWARE = [
@@ -243,4 +244,11 @@ CORS_ORIGIN_WHITELIST = (
 AUTHENTICATION_BACKENDS = [
     'users.utils.UsernameMobileAuthBackend',
 ]
+
+# 用于QQ登录的配置信息
+QQ_APP_ID = '101474184'
+QQ_APP_KEY = 'c6ce949e04e12ecc909ae6a8b09b637c'
+QQ_REDIRECT_URL = 'http://www.meiduo.site:8080/oauth_callback.html'
+
+QQ_STATE = '/'
 

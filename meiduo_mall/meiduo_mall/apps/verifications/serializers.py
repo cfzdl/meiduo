@@ -23,16 +23,17 @@ class CheckImageCodeSerializers(serializers.Serializer):
         redis_conn = get_redis_connection("verify_codes")
         real_image_code = redis_conn.get('img_%s' % image_code_id)
 
+        print(real_image_code)
         if real_image_code is None:
             # 过期或不存在
             raise serializers.ValidationError('无效的图片验证码')
 
         # 删除redis中图片验证码，防止用户对同一个进行多次验证
-        try:
-            redis_conn.delete('img_%s' % image_code_id)
-
-        except RedisError as e:
-            logger.error(e)
+        # try:
+        #     redis_conn.delete('img_%s' % image_code_id)
+        #
+        # except RedisError as e:
+        #     logger.error(e)
 
         #对比
         real_image_code = real_image_code.decode()
@@ -40,7 +41,7 @@ class CheckImageCodeSerializers(serializers.Serializer):
             raise serializers.ValidationError("图片验证码错误！")
 
         # reids中保存发送短信的标志
-        mobile = self.context['view'].kwargs['mobile']
+        mobile = self.context['view'].kwargs.get('mobile')
         if mobile:
             send_flag = redis_conn.get('send_flag_%s' % mobile)
             if send_flag:
